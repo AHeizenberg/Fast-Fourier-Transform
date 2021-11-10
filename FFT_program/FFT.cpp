@@ -475,21 +475,33 @@ double* fft(double *inputarr, int size, int dir)
 
 // Code from TA
 void multiply(const double *array1, const double *array2, double *outputArray, int arraySize) {
-    
+    double a, b, c, d;
+    int re, im;
     // iterate over the complex entries, up to n = arraySize/2
     for (int i = 0; i < arraySize; i+=2) {
-        int re = i;    // index of the real parts
-        int im = i+1;    // index of the imaginary parts
-        
-        outputArray[re] = array1[re]*array2[re] - array1[im]*array2[im]; // compute the real part of the output entry
-        outputArray[im] = array1[re]*array2[im] + array1[im]*array2[re]; // Compute the imaginary part of the output entry
+        re = i;    // index of the real parts
+        im = i+1;    // index of the imaginary parts
+        // OPTIMIZATION 3: Strength Reduction; change 4 step multiplication to 3 step
+        a = array1[re];
+        b = array1[im];
+
+        c = array2[re];
+        d = array2[im];
     
         // 1. (a + b) * (c + d)
-        // 2. a * c
-        // 3. b * d
-        // to get (ac - bd) -> step 2 - step 3
-        // to get i(bc + ad) -> step 1 - step 2
+        double one = (a + b) * (c + d);
 
+        // 2. a * c
+        double two = a * c;
+
+        // 3. b * d
+        double three = b * d;
+
+        // to get (ac - bd) -> step 2 - step 3
+        outputArray[re] = two - three;
+
+        // to get i(bc + ad) -> step 1 - step 2 - step 3
+        outputArray[im] = one - two  - three;
         // a = array1[re]
         // b = array1[im]
 
