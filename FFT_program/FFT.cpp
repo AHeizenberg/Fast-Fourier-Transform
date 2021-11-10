@@ -105,8 +105,8 @@ double* readWavFile(int *arraySize, int *channels, char *filename) {
 
     int largest = 0;
     for (int i=0; i< *arraySize; i++) {
-        if (intArray[i] > largest) {
-            largest = intArray[i];
+        if (abs(intArray[i]) > largest) {
+            largest = abs(intArray[i]);
         }
     }
 
@@ -253,8 +253,8 @@ void writeWavFile(double *outputArray, int outputArraySize, int channels, char *
     // doubles to be in the range (-1, 1) to prevent 16-bit integer overflow
     double largestDouble = 1;
     for (int i=0; i< outputArraySize; i++) {
-		if (outputArray[i] > largestDouble) {
-			largestDouble = outputArray[i];
+		if (abs(outputArray[i]) > largestDouble) {
+			largestDouble = abs(outputArray[i]);
 		}
     }
 
