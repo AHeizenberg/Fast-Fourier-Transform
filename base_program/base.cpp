@@ -83,8 +83,8 @@ double* readWavFile(int *arraySize, int *channels, char *filename) {
 
     int largest = 0;
     for (int i=0; i< *arraySize; i++) {
-        if (intArray[i] > largest) {
-            largest = intArray[i];
+        if (abs(intArray[i]) > largest) {
+            largest = abs(intArray[i]);
         }
     }
 
