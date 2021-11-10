@@ -39,6 +39,7 @@
 #define FMT_OFFSET			12
 
 using namespace std;
+// Code provided by TA link: https://d2l.ucalgary.ca/d2l/le/content/401076/Home
 
 double* readWavFile(int *arraySize, int *channels, char *filename);
 void readWavFileHeader(int *channels, int *numSamples, FILE *inputFile);
@@ -301,6 +302,7 @@ short int freadShortLSB(FILE *stream) {
 
     return data;
 }
+// END of code used by TA******************
 
 int main(int argc, char **argv) {
 	char *outputFileName;
@@ -415,6 +417,9 @@ int main(int argc, char **argv) {
 
 }
 
+// Code of fft function inspired by online resource
+// Link: https://www.geeksforgeeks.org/fast-fourier-transformation-poynomial-multiplication/?ref=lbp
+
 double* fft(double *inputarr, int size, int dir)
 {
  
@@ -475,7 +480,7 @@ double* fft(double *inputarr, int size, int dir)
 
 }
 
-// Code from TA
+// Code from TA changed it up a little
 void multiply(const double *array1, const double *array2, double *outputArray, int arraySize) {
     double a, b, c, d;
     int re, im;
@@ -513,5 +518,5 @@ void multiply(const double *array1, const double *array2, double *outputArray, i
 
     
     }
-    
+  // End of code used by TA  
 }
