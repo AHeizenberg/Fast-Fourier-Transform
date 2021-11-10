@@ -360,12 +360,26 @@ int main(int argc, char **argv) {
         impulseFreq[i] = 0.0;
     }
     
-    for(int i = 0; i < inputArraySize; i++){
-        inputFreq[i*2] = inputArray[i];
+    int counter;
+    // OPTIMIZATION 2: Partial unrolling
+    for(counter = 0; counter < inputArraySize-1; counter+=2){
+        inputFreq[counter*2] = inputArray[counter];
+        inputFreq[2*(counter+1)] = inputArray[counter+1];
     }
 
-    for(int i = 0; i < impulseArraySize; i++){
-        impulseFreq[i*2] = impulseArray[i];
+    if(counter == inputArraySize-1){
+        inputFreq[counter*2] = inputArray[counter];
+    }
+
+
+    // OPTIMIZATION 2: Partial unrolling
+    for(counter = 0; counter < impulseArraySize-1; counter+=2){
+        impulseFreq[counter*2] = impulseArray[counter];
+        impulseFreq[2*(counter+1)] = impulseArray[counter+1];
+    }
+
+    if(counter == impulseArraySize-1){
+        impulseFreq[counter*2] = impulseArray[counter];
     }
 
     // clear the outputArray
@@ -382,8 +396,10 @@ int main(int argc, char **argv) {
 
     double *inverse_fft = fft(outputFreqArr,freqSize,-1);
 
-    for(int i = 0; i < freqSize; i++){
+    // OPTIMIZATION 2: Partial unrolling
+    for(int i = 0; i < freqSize; i+=2){
         inverse_fft[i] = inverse_fft[i] / (freqSize/2);
+        inverse_fft[i+1] = inverse_fft[i+1] / (freqSize/2);
     }
 
     for(int i = 0; i < outputArraySize; i++){
