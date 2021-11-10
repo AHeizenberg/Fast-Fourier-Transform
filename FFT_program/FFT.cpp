@@ -1,11 +1,3 @@
-/*
-	Produces a single tone, and writes the result in .wav file format to the filename given as user input
-	Note that the specified filename should have a .wav ending
-	
-	Usage: ./testtone outputFile
-	
-	Contains functions for writing .wav files that can be used for the assignment
-*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -48,7 +40,6 @@
 
 using namespace std;
 
-double* convertToStereo(double *inputArray, int *outputArraySize, int inputArraySize);
 double* readWavFile(int *arraySize, int *channels, char *filename);
 void readWavFileHeader(int *channels, int *numSamples, FILE *inputFile);
 void writeWavFileHeader(int channels, int numberSamples, double outputRate, FILE *outputFile);
@@ -60,15 +51,6 @@ short int freadShortLSB(FILE *stream);
 double* fft(double *inputarr, int size, int dir);
 void multiply(const double *array1, const double *array2, double *outputArray, int arraySize);
 
-double* convertToStereo(double *inputArray, int *outputArraySize, int inputArraySize) {
-    *outputArraySize = 2 * inputArraySize ;
-    double *outputArray = new double[*outputArraySize] ;
-    for (int i = 0; i < *outputArraySize-1; i+=2){
-        outputArray[i] = inputArray[i/2] ;
-        outputArray[i+1] = inputArray[i/2];
-    }
-    return outputArray ;
-}
 
 double* readWavFile(int *arraySize, int *channels, char *filename) {
     double *array;
@@ -409,25 +391,6 @@ int main(int argc, char **argv) {
     }
 
     writeWavFile(outputArray, outputArraySize, outputChannels, outputFileName);
-  
-    // double a[8]= {2,0,4,0,6.5,0,-10,0};
-    // double *b = fft(a,8,1);
-
-    // cout << "foward" << endl;
-    // for(int i = 0; i < 8; i++){
-    //     cout << b[i] << endl;
-    // }
-
-    // double *c = fft(b,8,-1);
-    
-    // for(int i = 0; i < 8; i++){
-    //     c[i] = c[i] / 4;
-    // }
-
-    // cout << "reverse" << endl;
-    // for(int i = 0; i < 8; i++){
-    //     cout << c[i] << endl;
-    // }
 
 
     printf("Finished");
@@ -446,10 +409,13 @@ double* fft(double *inputarr, int size, int dir)
 
     // roots of unity array
     double *w = new double[size/2];
-
     // For storing n complex nth roots of unity
+    // OPTIMIZATION 1: Minimize Work by creating a constant
+    double alpha_constant = -2 * M_PI / (size/2);
+
     for (int i = 0; i < (size/4); i++) {
-        double alpha = -2 * M_PI * i / (size/2);
+        // Changed to constant
+        double alpha = i * alpha_constant;
         w[2*i] = cos(alpha);
         w[2*i+1] = dir*sin(alpha);
     }
