@@ -352,13 +352,15 @@ int main(int argc, char **argv) {
     double *inputFreq = new double[freqSize];
     double *impulseFreq = new double[freqSize];
 
+    // OPTIMIZATION 4: Code Jamming
     for(int i = 0; i < freqSize; i++){  
         inputFreq[i] = 0.0;
-    }
-
-    for(int i = 0; i < freqSize; i++){
         impulseFreq[i] = 0.0;
     }
+
+    // for(int i = 0; i < freqSize; i++){
+    //     impulseFreq[i] = 0.0;
+    // }
     
     int counter;
     // OPTIMIZATION 2: Partial unrolling
