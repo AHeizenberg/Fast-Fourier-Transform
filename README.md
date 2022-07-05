@@ -11,3 +11,12 @@ There are two different folders in my repository named “base_program” and �
     
     g++ FFT.cpp
     ./a.out guitar_dry.wav big_hall_IR_mono.wav output.wav
+
+## Optimizations Implemented :whale2:
+
+1. Algorithmic optimization by implementing Fast Fourier Transform :white_check_mark:
+2. Compiler optimization using the -O3 flag :white_check_mark:
+3. Minimize work - code tuning optimization by extrapolating complex calculations from loops. :white_check_mark:
+4. Partial unrolling optimization :white_check_mark:
+5. Code Jamming optimization :white_check_mark:
+6. Strength Reduction optimization :white_check_mark:
